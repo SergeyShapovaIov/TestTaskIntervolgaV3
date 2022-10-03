@@ -12,15 +12,15 @@
 </body>
 </html>
 <?php
-// Проверка на успешную загрузку файла
+// Checking for a successful file download
 if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){
     echo 'File Uploaded';
-    // Проверка на формат файла. Доступен только CSV формат
+    // Check the file format. Only CSV format available
     if($_FILES['inputfile']['type'] === "text/csv") {
-        $res = []; // Массив для содержимого CSV файла
+        $res = []; // Array for CSV file contents
         if (($file = fopen($_FILES['inputfile']['tmp_name'], 'r')) !== false) {
             $row = 0;
-            // Чтениие файла и заполнение результирующего массива
+            // Reading a file and filling the resulting array
             while ($data = fgetcsv($file, 1000, ",")) {
                 if ($row > 0) {
                     $res[$row - 1] = array(
@@ -30,7 +30,7 @@ if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){
                 }
                 $row++;
             }
-            // Получаем список файлов хранящихся в директории upload
+            // Get the list of files stored in the upload directory
             $arFileList = array(); // список файлов
             $resHandler = opendir("upload/");
             if (is_resource($resHandler)) {
@@ -41,11 +41,11 @@ if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){
                 }
                 closedir($resHandler);
             }
-            // Удаляем все файлы содержащиеся в папке upload
+            // Delete all the files contained in the upload folder
             for ($i = 0; $i < count($arFileList); $i++) {
                 unlink("./upload/" . $arFileList[$i]);
             }
-            // Создание новых файлов в папке upload
+            // Creating new files in the upload folder
             for ($i = 0; $i < count($res); $i++) {
                 $fail_name = $res[$i]['fail_name'];
                 $text = $res[$i]['content'];
@@ -58,9 +58,9 @@ if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){
             }
         }
    } else {
-        echo 'The file does not have a CSV extension'; // Сообщение об ошибке формата
+        echo 'The file does not have a CSV extension'; // Format error message
    }
 } else {
-    echo 'No File Uploaded'; // Сообщение об ошибке загрузки
+    echo 'No File Uploaded'; // Boot error message
 }
 ?>

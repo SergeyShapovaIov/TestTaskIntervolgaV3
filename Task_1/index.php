@@ -9,7 +9,6 @@
 </head>
 <body>
 <?php
-
     $a = "After number two";
     $array = array(56,0,2,2423);
     print_r($array);
@@ -23,8 +22,8 @@
     }
     print_r($array);
     echo "<br />";
-
-    //
+    // This function inserts an element into the specified index,
+    // changing the array and not deleting elements in it.
     function insert_element_by_index(& $array, $index, $element){
         for($i = count($array); $i > $index; $i--){
             $array[$i] = $array[$i-1];
